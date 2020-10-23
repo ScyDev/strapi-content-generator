@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/generate",
+      "handler": "ContentGenerator.generateContent",
+      "config": {
+        "policies": []
+      }
+    }, {
+      "method": "POST",
+      "path": "/delete-all",
+      "handler": "ContentGenerator.deleteAllContent",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
