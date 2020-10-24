@@ -1,4 +1,4 @@
-import {findAll, importSingleType} from "../content";
+import {findAll, generateSingleType} from "../content";
 
 describe('# Stripi api helpers', () => {
   const setUpStrapi = (method) => {
@@ -21,7 +21,7 @@ describe('# Stripi api helpers', () => {
       update,
     };
     setUpStrapi(methods);
-    await importSingleType('uid', { value: 2 });
+    await generateSingleType('uid', { value: 2 });
     expect(update).toHaveBeenCalled();
   });
 
@@ -34,7 +34,7 @@ describe('# Stripi api helpers', () => {
       create,
     };
     setUpStrapi(methods);
-    await importSingleType('uid', { value: 2 });
+    await generateSingleType('uid', { value: 2 });
     expect(update).not.toHaveBeenCalled();
     expect(create).toHaveBeenCalled();
   });

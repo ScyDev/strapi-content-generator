@@ -1,10 +1,10 @@
-import {deleteAllContent, importContent} from "../ContentGenerator";
+import {deleteAllContent, generateContent} from "../ContentGenerator";
 
 describe('# Controller', () => {
   const setUpStrapi = (serviceMock) => {
     global.strapi = {
       plugins: {
-        ['content-export-import']: {
+        ['content-generate']: {
           services: {
             contentgenerator: serviceMock
           }
@@ -14,10 +14,10 @@ describe('# Controller', () => {
   };
 
   it('should throw 400 if required parameters not exist', async () => {
-    const importData = jest.fn();
+    const generateData = jest.fn();
     const throwFn = jest.fn();
     setUpStrapi({
-      importData,
+      generateData,
     });
     const cxt = {
       throw: throwFn,
@@ -25,18 +25,18 @@ describe('# Controller', () => {
         body: {}
       }
     };
-    await importContent(cxt);
-    expect(importData).not.toHaveBeenCalled();
+    await generateContent(cxt);
+    expect(generateData).not.toHaveBeenCalled();
     expect(throwFn).toHaveBeenCalledTimes(1);
     expect(throwFn).toHaveBeenCalledWith(400, expect.anything());
   });
 
-  it('should import data', async () => {
-    const importData = jest.fn();
+  it('should generate data', async () => {
+    const generateData = jest.fn();
     const throwFn = jest.fn();
     const sendFn = jest.fn();
     setUpStrapi({
-      importData,
+      generateData,
     });
     const cxt = {
       throw: throwFn,
@@ -49,10 +49,10 @@ describe('# Controller', () => {
         }
       }
     };
-    await importContent(cxt);
+    await generateContent(cxt);
     expect(throwFn).not.toHaveBeenCalled();
-    expect(importData).toHaveBeenCalledTimes(1);
-    expect(importData).toHaveBeenCalledWith(cxt);
+    expect(generateData).toHaveBeenCalledTimes(1);
+    expect(generateData).toHaveBeenCalledWith(cxt);
     expect(sendFn).toHaveBeenCalled();
   });
 

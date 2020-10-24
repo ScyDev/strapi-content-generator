@@ -7,8 +7,8 @@ describe('# Service', () => {
     request: { body },
   });
 
-  it('should import collection type content one by one', async () => {
-    const importItemByContentType = jest.fn();
+  it('should generate collection type content one by one', async () => {
+    const generateItemByContentType = jest.fn();
     const collectionCxt = mockCxt({
       targetModel: 'uid',
       source: [{
@@ -18,21 +18,21 @@ describe('# Service', () => {
       }],
       kind: 'collectionType',
     });
-    utils.importItemByContentType.mockImplementation(importItemByContentType);
-    await service.importData(collectionCxt);
-    expect(importItemByContentType).toHaveBeenCalledTimes(2);
+    utils.generateItemByContentType.mockImplementation(generateItemByContentType);
+    await service.generateData(collectionCxt);
+    expect(generateItemByContentType).toHaveBeenCalledTimes(2);
   });
 
   it('should use update for single type content', async () => {
-    const importSingleType = jest.fn();
+    const generateSingleType = jest.fn();
     const singleCxt = mockCxt({
       targetModel: 'uid',
       source: { id: 1 },
       kind: 'singleType',
     });
-    utils.importSingleType.mockImplementation(importSingleType);
-    await service.importData(singleCxt);
-    expect(importSingleType).toHaveBeenCalledTimes(1);
+    utils.generateSingleType.mockImplementation(generateSingleType);
+    await service.generateData(singleCxt);
+    expect(generateSingleType).toHaveBeenCalledTimes(1);
   });
 
   it('should delete content by ids and return deleted count', async () => {

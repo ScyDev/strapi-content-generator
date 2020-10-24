@@ -1,15 +1,15 @@
-import {deleteAll, importData} from "../api";
+import {deleteAll, generateData} from "../api";
 import * as strapiHelper from "strapi-helper-plugin";
 
 jest.mock("strapi-helper-plugin");
 
 describe('# Api helpers', () => {
-  it('should call import content api', async () => {
+  it('should call generate content api', async () => {
     const request = jest.fn();
     strapiHelper.request.mockImplementation(request);
-    await importData({id: 1});
+    await generateData({id: 1});
     expect(request).toBeCalledTimes(1);
-    expect(request).toBeCalledWith('/content-export-import/import', {
+    expect(request).toBeCalledWith('/content-generate/generate', {
       method: 'POST',
       body: {id: 1}
     });
@@ -20,7 +20,7 @@ describe('# Api helpers', () => {
     strapiHelper.request.mockImplementation(request);
     await deleteAll('uid');
     expect(request).toBeCalledTimes(1);
-    expect(request).toBeCalledWith('/content-export-import/delete-all', {
+    expect(request).toBeCalledWith('/content-generate/delete-all', {
       method: 'POST',
       body: {targetModelUid: 'uid'}
     });
