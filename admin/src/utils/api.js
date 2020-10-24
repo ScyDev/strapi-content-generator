@@ -2,7 +2,7 @@ import {request} from "strapi-helper-plugin";
 import pluginId from '../pluginId';
 
 export const generateData = (body) => {
-  return request(`/${pluginId}/import`, {
+  return request(`/${pluginId}/generate`, {
     method: 'POST',
     body,
   });
