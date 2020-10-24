@@ -1,6 +1,6 @@
-# Strapi plugin content-export-import
+# Strapi plugin content-generate
 
-![](https://github.com/lazurey/strapi-plugin-content-export-import/workflows/Run-Tests/badge.svg)
+![](https://github.com/ScyDev/strapi-plugin-content-generate/workflows/Run-Tests/badge.svg)
 
 ## First Setup
 ```bash
@@ -13,9 +13,9 @@ cd /<path-to-your-strapi-project
 cd plugins
 
 # clone the plugin code into a folder and skip the prefix
-git clone git@github.com:lazurey/strapi-plugin-content-export-import.git content-export-import
+git clone git@github.com:ScyDev/strapi-plugin-content-generate.git content-generate
 # install dependencies
-cd content-export-import && yarn install
+cd content-generate && yarn install
 # build the plugin
 cd ../..
 yarn build
@@ -32,13 +32,17 @@ Running at http://localhost:8000/
 
 ## Features
 
-- Support JSON export & import
+- Generating content from JSON template
 - Delete all content of a type
 
 **Not supported**
 
 - Media fields, e.g. image, video, etc.
 - Any other file type, e.g. csv, etc.
+
+## Shout outs
+
+- based on the content-import-export plugin by Lazurey: https://github.com/lazurey/strapi-plugin-content-export-import
 
 ## References
 
