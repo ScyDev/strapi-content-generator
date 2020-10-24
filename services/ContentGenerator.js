@@ -2,6 +2,7 @@
 
 const utils  = require('./utils/content');
 const _ = require('lodash');
+const uuid = require('uuid-random');
 
 /**
  * ContentGenerator.js service
@@ -14,15 +15,17 @@ module.exports = {
     const { targetModel, source, kind } = ctx.request.body;
     try {
       if (kind === 'collectionType' && Array.isArray(source)) {
-        for (let i = 0; i < source.length; i++) {
+        if (source.length > 0) {
           //console.log(source[i]);
-          let multiplier = 100000;
+          let multiplier = 1000000;
           for (let k = 0; k < multiplier; k++) {
-            //await uitls.importItemByContentType(targetModel, source[i])
-            source[i].id = i*multiplier + k; // make id unique by spacing it far apart
-            source[i].slug = source[i].id;
+            //source[0].id = i*multiplier + k; // make id unique by spacing it far apart
+            //source[0].slug = source[0].id;
+
+            source[0].id = null; //uuid(); // null generates new id for new entry
+            source[0].slug = uuid();
             //console.log(source[i]);
-            await utils.generateItemByContentType(targetModel, source[i])
+            await utils.generateItemByContentType(targetModel, source[0])
           }
         }
       } else {
