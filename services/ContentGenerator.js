@@ -14,19 +14,48 @@ const loremIpsum = require("lorem-ipsum").loremIpsum;
 
 module.exports = {
   generateData: async (ctx) => {
+    // get count of categories
+    let categoryCount = 0;
+    const result = await strapi
+      .query('category')
+      .model.query(qb => {
+        //qb.where('id', 1);
+        qb.count('id').then((count) => {
+          console.log('number of categories', count)
+          categoryCount = count;
+        });
+      })
+      .fetch();
+    const fields = result.toJSON();
+
+    // generate content
     const { targetModel, source, kind } = ctx.request.body;
     try {
       if (kind === 'collectionType' && Array.isArray(source)) {
+        console.log({targetModel: targetModel});
         if (source.length > 0) {
-          //console.log(source[i]);
           let multiplier = 20;
           for (let k = 0; k < multiplier; k++) {
-            source[0].id = null; //uuid(); // null generates new id for new entry
-            source[0].slug = uuid(); //Date.now()
-            source[0].title = loremIpsum({count: 5, units: "words"}).toUpperCase();
-            source[0].description = loremIpsum({count: 30, units: "words"});
-            source[0].price = Math.floor(Math.random() * Math.floor(2000.00)) + (Math.floor(Math.random() * Math.floor(99.00)) / 100.0);
-            //console.log(source[i]);
+            if (targetModel == "application::product.product") {
+
+              source[0].id = null; //uuid(); // null generates new id for new entry
+              source[0].slug = uuid(); //Date.now()
+              source[0].title = loremIpsum({count: 5, units: "words"}).toUpperCase();
+              source[0].description = loremIpsum({count: 30, units: "words"});
+              source[0].price = Math.floor(Math.random() * Math.floor(2000.00)) + (Math.floor(Math.random() * Math.floor(99.00)) / 100.0);
+
+              console.log({categoryCount: categoryCount});
+              console.log({categoryCount: parseInt(categoryCount[0].count)});
+              source[0].categories[0].id = 1 + Math.floor(Math.random() * Math.floor(parseInt(categoryCount[0].count) - 1));
+              console.log({catId: source[0].categories[0].id});
+            }
+
+            if (targetModel == "application::category.category") {
+              source[0].id = null;
+              source[0].name = loremIpsum({count: 2, units: "words"}).toUpperCase();
+              source[0].slug = uuid();
+            }
+
             await utils.generateItemByContentType(targetModel, source[0])
           }
         }
