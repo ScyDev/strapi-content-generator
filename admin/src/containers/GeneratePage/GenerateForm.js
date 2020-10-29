@@ -9,16 +9,11 @@ import {generateData} from "../../utils/api";
 
 const GenerateForm = ({models}) => {
   const options = map(models, convertModelToOption);
+  options.splice(0, 0, {label: "-", value: "none"}); // add a "none" option because we don't want a content type selected by default
   const [loading, setLoading] = useState(false);
   const [targetModelUid, setTargetModel] = useState(undefined);
   const [sourceFile, setSourceFile] = useState(null);
   const [source, setSource] = useState(null);
-
-  useEffect(() => {
-    if (!targetModelUid && models && models.length > 0) {
-      setTargetModel(models[0].uid);
-    }
-  }, [models]);
 
   const onTargetModelChange = (event) => {
     setTargetModel(event.target.value);
