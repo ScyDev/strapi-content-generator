@@ -14,7 +14,7 @@ const GenerateForm = ({models}) => {
   const [targetModelUid, setTargetModel] = useState(undefined);
   const [sourceFile, setSourceFile] = useState(null);
   const [source, setSource] = useState(null);
-  const [generateCount, setGenerateCount] = useState(1);
+  const [generateCount, setGenerateCount] = useState(undefined);
 
   const onTargetModelChange = (event) => {
     setTargetModel(event.target.value);
@@ -31,6 +31,12 @@ const GenerateForm = ({models}) => {
     //console.log({onContentGenerateCountChange: event.target.value});
     setGenerateCount(event.target.value);
   };
+  useEffect(() => {
+    if (!generateCount) {
+      console.log("setting default generateCount");
+      setGenerateCount(1);
+    }
+  });
 
   const upload = () => {
     if (!sourceFile) {
@@ -55,6 +61,10 @@ const GenerateForm = ({models}) => {
     }
     if (!source) {
       strapi.notification.error("Please choose a source file first.");
+      return;
+    }
+    if (!generateCount) {
+      strapi.notification.error("Please set number of content items to generate.");
       return;
     }
     const model = find(models, (model) => model.uid === targetModelUid);
@@ -98,7 +108,7 @@ const GenerateForm = ({models}) => {
       <label htmlFor="target-content-generate-count">Number of Content to generate</label>
       <InputNumber name="targetContentGenerateCount"
                    id="target-content-generate-count"
-                   value= "1"
+                   value={generateCount}
                    onChange={onContentGenerateCountChange}/>
     </FieldRow>
     <FieldRow>
