@@ -29,12 +29,12 @@ module.exports = {
     const fields = result.toJSON();
 
     // generate content
-    const { targetModel, source, kind } = ctx.request.body;
+    const { targetModel, source, generateCount, kind } = ctx.request.body;
     try {
       if (kind === 'collectionType' && Array.isArray(source)) {
         console.log({targetModel: targetModel});
         if (source.length > 0) {
-          let multiplier = 20;
+          let multiplier = generateCount;
           for (let k = 0; k < multiplier; k++) {
             if (targetModel == "application::product.product") {
 
@@ -44,10 +44,8 @@ module.exports = {
               source[0].description = loremIpsum({count: 30, units: "words"});
               source[0].price = Math.floor(Math.random() * Math.floor(2000.00)) + (Math.floor(Math.random() * Math.floor(99.00)) / 100.0);
 
-              console.log({categoryCount: categoryCount});
-              console.log({categoryCount: parseInt(categoryCount[0].count)});
               source[0].categories[0].id = 1 + Math.floor(Math.random() * Math.floor(parseInt(categoryCount[0].count) - 1));
-              console.log({catId: source[0].categories[0].id});
+              console.log({categoryForProduct: source[0].categories[0].id});
             }
 
             if (targetModel == "application::category.category") {

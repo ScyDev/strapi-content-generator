@@ -7,9 +7,9 @@ const validator = require('./validations');
 module.exports = {
   generateContent: async (ctx) => {
     const generatorService = strapi.plugins[PLUGIN_ID].services['contentgenerator'];
-    const validationResult = validator.validateGenerateContentRequest(
-      ctx.request.body);
+    const validationResult = validator.validateGenerateContentRequest(ctx.request.body);
     if (validationResult) {
+      //console.log({body: ctx.request.body});
       ctx.throw(400, validationResult);
       return;
     }

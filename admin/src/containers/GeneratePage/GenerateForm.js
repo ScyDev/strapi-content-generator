@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Button, InputSelect} from "strapi-helper-plugin";
+import {Button, InputSelect, InputNumber} from "strapi-helper-plugin";
 import {convertModelToOption} from "../../utils/convertOptions";
 import {find, get, map} from 'lodash';
 import {FieldRow, FileField, FormAction} from "./ui-components";
@@ -14,6 +14,7 @@ const GenerateForm = ({models}) => {
   const [targetModelUid, setTargetModel] = useState(undefined);
   const [sourceFile, setSourceFile] = useState(null);
   const [source, setSource] = useState(null);
+  const [generateCount, setGenerateCount] = useState(1);
 
   const onTargetModelChange = (event) => {
     setTargetModel(event.target.value);
@@ -24,6 +25,11 @@ const GenerateForm = ({models}) => {
       setSource(null);
       setSourceFile(event.target.files[0])
     }
+  };
+
+  const onContentGenerateCountChange = (event) => {
+    //console.log({onContentGenerateCountChange: event.target.value});
+    setGenerateCount(event.target.value);
   };
 
   const upload = () => {
@@ -56,6 +62,7 @@ const GenerateForm = ({models}) => {
     generateData({
       targetModel: model.uid,
       source,
+      generateCount: generateCount,
       kind: get(model, 'schema.kind'),
     }).then(() => {
       strapi.notification.success("Generate succeeded!");
@@ -87,6 +94,13 @@ const GenerateForm = ({models}) => {
           : "Upload"}</Button>
       </FormAction>)
     }
+    <FieldRow>
+      <label htmlFor="target-content-generate-count">Number of Content to generate</label>
+      <InputNumber name="targetContentGenerateCount"
+                   id="target-content-generate-count"
+                   value= "1"
+                   onChange={onContentGenerateCountChange}/>
+    </FieldRow>
     <FieldRow>
       <label htmlFor="target-content-type">Target Content Type</label>
       <InputSelect name="targetContentType"

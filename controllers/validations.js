@@ -1,6 +1,6 @@
 const validateGenerateContentRequest = (body) => {
-  const { targetModel, source, kind } = body;
-  if (!targetModel || !source || !kind) {
+  const { targetModel, source, generateCount, kind } = body;
+  if (!targetModel || !source || !generateCount || !kind) {
     return 'Required parameters missing';
   }
   return undefined;
