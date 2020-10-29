@@ -16,7 +16,7 @@ module.exports = {
   generateData: async (ctx) => {
     // get count of categories
     let categoryCount = 0;
-    const result = await strapi
+    const categoryResult = await strapi
       .query('category')
       .model.query(qb => {
         //qb.where('id', 1);
@@ -26,7 +26,12 @@ module.exports = {
         });
       })
       .fetch();
-    const fields = result.toJSON();
+
+    // get count of images
+    let imageCount = 0;
+    //imageCount = await strapi.query('file', 'upload').countSearch("");
+    imageCount = await strapi.query('file', 'upload').count();
+    console.log({imageCount: imageCount});
 
     // generate content
     const { targetModel, source, generateCount, kind } = ctx.request.body;
@@ -44,8 +49,13 @@ module.exports = {
               source[0].description = loremIpsum({count: 30, units: "words"});
               source[0].price = Math.floor(Math.random() * Math.floor(2000.00)) + (Math.floor(Math.random() * Math.floor(99.00)) / 100.0);
 
+              // use random category for product
               source[0].categories[0].id = 1 + Math.floor(Math.random() * Math.floor(parseInt(categoryCount[0].count) - 1));
               console.log({categoryForProduct: source[0].categories[0].id});
+
+              // use random image for product
+              source[0].image.id = 1 + Math.floor(Math.random() * Math.floor(parseInt(imageCount) - 1));
+              console.log({imageForProduct: source[0].image.id});
             }
 
             if (targetModel == "application::category.category") {

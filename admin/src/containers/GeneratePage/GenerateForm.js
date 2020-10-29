@@ -33,7 +33,7 @@ const GenerateForm = ({models}) => {
   };
   useEffect(() => {
     if (!generateCount) {
-      console.log("setting default generateCount");
+      //console.log("setting default generateCount");
       setGenerateCount(1);
     }
   });
